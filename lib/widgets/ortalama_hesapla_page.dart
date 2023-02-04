@@ -1,5 +1,6 @@
 import 'package:dinamik_ortalama_hesaplama/constants/app_constants.dart';
 import 'package:dinamik_ortalama_hesaplama/helper/data_helper.dart';
+import 'package:dinamik_ortalama_hesaplama/widgets/ders_listesi.dart';
 import 'package:dinamik_ortalama_hesaplama/widgets/ortalama_goster.dart';
 import 'package:flutter/material.dart';
 import '../model/ders.dart';
@@ -20,6 +21,7 @@ class _OrtalamaHesaplaPageState extends State<OrtalamaHesaplaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -46,11 +48,8 @@ class _OrtalamaHesaplaPageState extends State<OrtalamaHesaplaPage> {
             ],
           ),
           Expanded(
-            child: Container(
-              child: Text('Liste buraya gelecek'),
-              color: Colors.blue,
+            child: DersListesi(),
             ),
-          ),
         ],
       ),
     );
@@ -180,7 +179,7 @@ class _OrtalamaHesaplaPageState extends State<OrtalamaHesaplaPage> {
           krediDegeri: secilenKrediDegeri);
       DataHelper.dersEkle(eklenecekDers);
       setState(() {
-        
+
       });
     }
   }
