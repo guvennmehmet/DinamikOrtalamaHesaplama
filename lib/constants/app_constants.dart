@@ -27,4 +27,7 @@ class Sabitler{
       color: anaRenk
   );
 
+  static final EdgeInsets dropDownPadding =
+      EdgeInsets.symmetric(horizontal: 16, vertical: 8);
+
 }
