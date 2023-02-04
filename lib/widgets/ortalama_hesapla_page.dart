@@ -2,6 +2,7 @@ import 'package:dinamik_ortalama_hesaplama/constants/app_constants.dart';
 import 'package:dinamik_ortalama_hesaplama/helper/data_helper.dart';
 import 'package:dinamik_ortalama_hesaplama/widgets/ortalama_goster.dart';
 import 'package:flutter/material.dart';
+import '../model/ders.dart';
 
 class OrtalamaHesaplaPage extends StatefulWidget {
   const OrtalamaHesaplaPage({Key? key}) : super(key: key);
@@ -11,9 +12,10 @@ class OrtalamaHesaplaPage extends StatefulWidget {
 }
 
 class _OrtalamaHesaplaPageState extends State<OrtalamaHesaplaPage> {
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   double secilenHarfDegeri = 4;
   double secilenKrediDegeri = 1;
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  String girilenDersAdi = '';
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,10 @@ class _OrtalamaHesaplaPageState extends State<OrtalamaHesaplaPage> {
               ),
               Expanded(
                 flex: 1,
-                child: OrtalamaGoster(dersSayisi: 1, ortalama: 4.8527),
+                child: OrtalamaGoster(
+                  dersSayisi: DataHelper.tumEklenenDersler.length,
+                  ortalama: DataHelper.ortalamaHesapla(),
+                ),
               ),
             ],
           ),
@@ -79,7 +84,7 @@ class _OrtalamaHesaplaPageState extends State<OrtalamaHesaplaPage> {
                 ),
               ),
               IconButton(
-                onPressed: (){},
+                onPressed: _dersEkleveOrtalamaHesapla,
                 icon: Icon(Icons.arrow_forward_ios_sharp),
                 color: Sabitler.anaRenk,
                 iconSize: 30,
@@ -97,6 +102,17 @@ class _OrtalamaHesaplaPageState extends State<OrtalamaHesaplaPage> {
 
   _buildTextFormField() {
     return TextFormField(
+      onSaved: (deger) {
+        setState(() {
+          girilenDersAdi = deger!;
+        });
+      },
+      validator: (s) {
+        if (s!.length <= 0) {
+          return 'Ders adını giriniz';
+        } else
+          return null;
+      },
       decoration: InputDecoration(
         hintText: 'Matematik',
         border: OutlineInputBorder(
@@ -154,4 +170,18 @@ class _OrtalamaHesaplaPageState extends State<OrtalamaHesaplaPage> {
     );
   }
 
+
+  void _dersEkleveOrtalamaHesapla() {
+    if(formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      var eklenecekDers = Ders(
+          ad: girilenDersAdi,
+          harfDegeri: secilenHarfDegeri,
+          krediDegeri: secilenKrediDegeri);
+      DataHelper.dersEkle(eklenecekDers);
+      setState(() {
+        
+      });
+    }
+  }
 }
