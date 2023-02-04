@@ -11,7 +11,8 @@ class OrtalamaHesaplaPage extends StatefulWidget {
 }
 
 class _OrtalamaHesaplaPageState extends State<OrtalamaHesaplaPage> {
-  double secilenDeger = 4;
+  double secilenHarfDegeri = 4;
+  double secilenKrediDegeri = 1;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -53,23 +54,43 @@ class _OrtalamaHesaplaPageState extends State<OrtalamaHesaplaPage> {
   Widget _buildForm() {
     return Form(
       key: formKey,
-      child: Column(children: [
-        _buildTextFormField(),
+      child: Column(
+        children: [
+          Padding(
+            padding: Sabitler.yatayPadding8,
+            child: _buildTextFormField(),
+          ),
+          SizedBox(
+            height: 5,
+          ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildHarfler(),
-              IconButton(
-                onPressed: (){},
-                icon: Icon(Icons.ac_unit),
+              Expanded(
+                child: Padding(
+                  padding: Sabitler.yatayPadding8,
+                  child: _buildHarfler(),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: Sabitler.yatayPadding8,
+                  child: _buildKrediler(),
+                ),
               ),
               IconButton(
                 onPressed: (){},
-                icon: Icon(Icons.ac_unit),
+                icon: Icon(Icons.arrow_forward_ios_sharp),
+                color: Sabitler.anaRenk,
+                iconSize: 30,
               ),
             ],
-          )
-      ],),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+        ],
+      ),
     );
 
   }
@@ -78,7 +99,9 @@ class _OrtalamaHesaplaPageState extends State<OrtalamaHesaplaPage> {
     return TextFormField(
       decoration: InputDecoration(
         hintText: 'Matematik',
-        border: OutlineInputBorder(borderRadius: Sabitler.borderRadius),
+        border: OutlineInputBorder(
+            borderRadius: Sabitler.borderRadius,
+            borderSide: BorderSide.none),
         filled: true,
         fillColor: Sabitler.anaRenk.shade100.withOpacity(0.3)),
       );
@@ -87,18 +110,19 @@ class _OrtalamaHesaplaPageState extends State<OrtalamaHesaplaPage> {
 
   _buildHarfler() {
     return Container(
+      alignment: Alignment.center,
       padding: Sabitler.dropDownPadding,
       decoration: BoxDecoration(
         color: Sabitler.anaRenk.shade100.withOpacity(0.3),
         borderRadius: Sabitler.borderRadius
       ),
       child: DropdownButton<double>(
-        value: secilenDeger,
+        value: secilenHarfDegeri,
         elevation: 16,
         iconEnabledColor: Sabitler.anaRenk.shade200,
         onChanged: (deger) {
           setState(() {
-            secilenDeger = deger!;
+            secilenHarfDegeri = deger!;
           });
         },
         underline: Container(),
@@ -106,4 +130,28 @@ class _OrtalamaHesaplaPageState extends State<OrtalamaHesaplaPage> {
       ),
     );
   }
+
+  _buildKrediler() {
+    return Container(
+      alignment: Alignment.center,
+      padding: Sabitler.dropDownPadding,
+      decoration: BoxDecoration(
+          color: Sabitler.anaRenk.shade100.withOpacity(0.3),
+          borderRadius: Sabitler.borderRadius
+      ),
+      child: DropdownButton<double>(
+        value: secilenKrediDegeri,
+        elevation: 16,
+        iconEnabledColor: Sabitler.anaRenk.shade200,
+        onChanged: (deger) {
+          setState(() {
+            secilenKrediDegeri = deger!;
+          });
+        },
+        underline: Container(),
+        items: DataHelper.tumDerslerinKredileri(),
+      ),
+    );
+  }
+
 }
