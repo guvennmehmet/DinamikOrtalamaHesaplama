@@ -11,4 +11,6 @@ class Sabitler{
     color: anaRenk
   );
 
+  static BorderRadius borderRadius = BorderRadius.circular(24);
+
 }
